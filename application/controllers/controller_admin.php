@@ -48,14 +48,26 @@ class Controller_Admin extends Controller
 		}
 	}
 
+	public function check_auth($login,$password)
+	{
+		$boolean = $this->model->auth($login,$password);
+		if($boolean==1) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 	public function exist($var) {
-		if (isset($var)) {
+		if(isset($var)) {
 			return $var;
 		}
 	}
 	function action_index()
 	{	
-		$boolean = $this->model->auth($this->exist($_POST['login']),$this->exist($_POST['password']));
+		$login = $this->exist($_POST['login']);
+		$password = $this->exist($_POST['password']);
+		$this->check_auth($login,$password);
 		if(isset($_COOKIE['admin']) && isset($_POST["id"])) { 
 			// echo $_POST["back_page"]."  ".$_POST["next_page"];
 			if($_POST["status"]=="on") {
