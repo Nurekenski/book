@@ -2,15 +2,23 @@
 class Model_Main extends Model
 {
 	private function selecting($start,$end) {
-		$query = $this->pdo->query('SELECT * FROM information where id between '.$start." and ".($end));	
-		$result = $query->fetchAll(PDO::FETCH_CLASS);
-		return $result;
+		$finish = [];
+		$arr = [];
+		foreach($_SESSION["all_dataset"] as $key=>$value){
+			if($start<=$value->id && $end>=$value->id) {
+				$arr[$key] = $value;
+				array_push($finish,$arr[$key]);
+			}
+		}
+		return $finish;
 	}
 	public function data($page) {
 		$pivot = 3;
 		$query = $this->pdo->query('SELECT * FROM information');	
 		$result = $query->fetchAll(PDO::FETCH_CLASS);
-		
+
+		$_SESSION["all_dataset"] = $result;
+	
 		$all_datas = sizeof($result);
 		$all_data = sizeof($result);
 
@@ -74,36 +82,6 @@ class Model_Main extends Model
 			// $result = $query->fetchAll(PDO::FETCH_CLASS);
 			// return $result;
 		}
-	}
-	private function select($column,$sort,$back_next) {
-		$pivot = 3;
-		$query = $this->pdo->query('SELECT * FROM information');	
-		$result = $query->fetchAll(PDO::FETCH_CLASS);
-		
-		$all_datas = sizeof($result);
-		$all_data = sizeof($result);
-
-		$array = [];
-		while($all_data>4) {
-			$all_data = $all_data - $pivot;
-			array_push($array,$pivot);
-		}
-		array_push($array,$all_datas-array_sum($array));
-		$start = [0];
-		$end = [$pivot];
-		$x = 1;
-		while ($x<sizeof($array)) {
-			$x++;
-			array_push($end,$end[$x-2]+$array[$x-1]);
-			array_push($start,$end[$x-1]-$array[$x-1]);
-		}
-		
-		$query = $this->pdo->query('SELECT * FROM information where id between  '.($start[$back_next["back"]]+1)." and ".$end[$back_next["back"]].'  ORDER BY  '.$column.' '.$sort);
-		$result = $query->fetchAll(PDO::FETCH_CLASS);
-		if($query){	
-			return $result;
-		}
-		return "Unfortunately failed";
 	}
 	public function sort($type_sort,$back_next)
 	{	

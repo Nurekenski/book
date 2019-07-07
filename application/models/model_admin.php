@@ -45,6 +45,7 @@ class Model_Admin extends Model
 			array_push($start,$end[$x-1]-$array[$x-1]);
 		}
 		setcookie("alldata",sizeof($start));
+		
 		if($page["next"]>0 && $page["boolean"]=="true" ) {
 			// echo "first performed sdfsdf";
 			// var_dump($start);
@@ -93,7 +94,7 @@ class Model_Admin extends Model
 		WHERE id = "'.$id.'"');
 
 		$result = $query->fetch();
-		if($query){	
+		if($query) {	
 			return true;
 		}
 		return "Unfortunately failed";
