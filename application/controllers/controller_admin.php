@@ -50,7 +50,7 @@ class Controller_Admin extends Controller
 
 	function action_index()
 	{	
-		$boolean = $this->model->auth($_POST['login'],$_POST['password']);
+		$boolean = $this->model->auth(isset($_POST['login'])?:$_POST['login'],isset($_POST['password'])?:$_POST['password']);
 		if(isset($_COOKIE['admin']) && isset($_POST["id"])) { 
 			// echo $_POST["back_page"]."  ".$_POST["next_page"];
 			if($_POST["status"]=="on") {

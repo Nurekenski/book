@@ -4,7 +4,7 @@ class Model_Admin extends Model
 	public function auth($login,$password)
 	{	
         $stmt = $this->pdo->prepare("SELECT * FROM user WHERE login = ?");
-        $stmt->execute([$_POST['login']]);
+        $stmt->execute([isset($_POST['login'])?:$_POST['login']]);
 		$user = $stmt->fetch();
 		$id = uniqid("T");
         if ($user &&  md5($password)==$user['password'])

@@ -76,7 +76,10 @@ class Controller_Main extends Controller
 		else if(isset($_POST["action"]) && $_POST["action"]=="logout") {
 			setcookie("admin", "", time()-3600);
 			setcookie("PHPSESSID", "", time()-3600);
-			unset($_SESSION["admin"]);
+			if(isset($_SESSION["admin"])){
+				unset($_SESSION["admin"]);
+			} 
+		
 			return $this->getDataForPagination();
 		}
 		else {
