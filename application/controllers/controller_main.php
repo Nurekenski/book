@@ -73,7 +73,7 @@ class Controller_Main extends Controller
 			$data = $this->model->sort("s_desc",$this->defaultPage($_GET['back_page'],$_GET['next_page']));
 			$this->view->generate('main_view.php', 'template_view.php',$data,$this->defaultPage($_GET['back_page'],$_GET['next_page']));
 		}
-		else if($_POST["action"]=="logout") {
+		else if(isset($_POST["action"]) && $_POST["action"]=="logout") {
 			setcookie("admin", "", time()-3600);
 			setcookie("PHPSESSID", "", time()-3600);
 			unset($_SESSION["admin"]);

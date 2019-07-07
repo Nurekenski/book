@@ -18,15 +18,22 @@ class Model_Admin extends Model
         }
 	}
 	private function select($start,$end) {
-		$query = $this->pdo->query('SELECT * FROM information where id between '.$start." and ".($end));	
-		$result = $query->fetchAll(PDO::FETCH_CLASS);
-		return $result;
+		$finish = [];
+		$arr = [];
+		foreach($_SESSION["all_dataset"] as $key=>$value){
+			if($start<=$value->id && $end>=$value->id) {
+				$arr[$key] = $value;
+				array_push($finish,$arr[$key]);
+			}
+		}
+		return $finish;
 	}
 	public function data($page) {
 		$pivot = 3;
 		$query = $this->pdo->query('SELECT * FROM information');	
 		$result = $query->fetchAll(PDO::FETCH_CLASS);
-		
+		$_SESSION["all_dataset"] = $result;
+
 		$all_datas = sizeof($result);
 		$all_data = sizeof($result);
 
@@ -45,7 +52,7 @@ class Model_Admin extends Model
 			array_push($start,$end[$x-1]-$array[$x-1]);
 		}
 		setcookie("alldata",sizeof($start));
-		
+
 		if($page["next"]>0 && $page["boolean"]=="true" ) {
 			// echo "first performed sdfsdf";
 			// var_dump($start);
@@ -100,5 +107,3 @@ class Model_Admin extends Model
 		return "Unfortunately failed";
 	}
 }
-
-
