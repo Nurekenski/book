@@ -3,19 +3,21 @@ class Model_Admin extends Model
 {
 	public function auth($login,$password)
 	{	
-        $stmt = $this->pdo->prepare("SELECT * FROM user WHERE login = ?");
-        $stmt->execute([isset($_POST['login'])?:$_POST['login']]);
-		$user = $stmt->fetch();
-		$id = uniqid("T");
-        if ($user &&  md5($password)==$user['password'])
-        {
-			setcookie("admin", $id, time() + 3600);
-			session_start();
-			$_SESSION["admin"] = $id;
-            return true;
-        } else {
-            return false;
-        }
+		$stmt = $this->pdo->prepare("SELECT * FROM user WHERE login = ?");
+		if(isset($_POST['login'])) {
+			$stmt->execute([$_POST['login']]);
+			$user = $stmt->fetch();
+			$id = uniqid("T");
+			if ($user &&  md5($password)==$user['password'])
+			{
+				setcookie("admin", $id, time() + 3600);
+				session_start();
+				$_SESSION["admin"] = $id;
+				return true;
+			} else {
+				return false;
+			}
+		}
 	}
 	private function select($start,$end) {
 		$finish = [];
@@ -52,7 +54,6 @@ class Model_Admin extends Model
 			array_push($start,$end[$x-1]-$array[$x-1]);
 		}
 		setcookie("alldata",sizeof($start));
-
 		if($page["next"]>0 && $page["boolean"]=="true" ) {
 			// echo "first performed sdfsdf";
 			// var_dump($start);

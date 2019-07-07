@@ -79,7 +79,6 @@ class Controller_Main extends Controller
 			if(isset($_SESSION["admin"])){
 				unset($_SESSION["admin"]);
 			} 
-		
 			return $this->getDataForPagination();
 		}
 		else {

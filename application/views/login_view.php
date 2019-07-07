@@ -34,7 +34,6 @@
         background-color: #0095ff;
         border-radius: 20px;
         border: none;
-        
     }
     .btn:hover {
         background-color: #07c;

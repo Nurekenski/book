@@ -29,6 +29,7 @@
     <td><a href='/edit?id=".$obj->id."&back_page=".$second_data["back"]."&next_page=".$second_data["next"]."'>".$obj->text."</a></td>
 
     <td><a href='/edit?id=".$obj->id."&back_page=".$second_data["back"]."&next_page=".$second_data["next"]."'>".$obj->status ."</a></td>
+    <td><a class='change' href='/edit?id=".$obj->id."&back_page=".$second_data["back"]."&next_page=".$second_data["next"]."'>Изменить</a></td>
     </tr>";
     }
     ?>
@@ -43,6 +44,16 @@
         flex-direction: column;
         justify-content: center;
         align-items:  center;
+    }
+    .change {
+        color: white;
+        width: 100px;
+        padding: 3px;
+        background-color: #0095ff;
+        border-radius: 20px;
+        border: none;  
+        font-size: 14px;
+        margin: 5px;
     }
     .btn {
         color: white;
