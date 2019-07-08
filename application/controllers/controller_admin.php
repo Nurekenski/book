@@ -63,7 +63,7 @@ class Controller_Admin extends Controller
 		$this->check_auth();
 		if(isset($_COOKIE['admin']) && isset($_POST["id"])) { 
 			// echo $_POST["back_page"]."  ".$_POST["next_page"];
-			if($_POST["status"]=="on") {
+			if(isset($_POST["status"]) && $_POST["status"]=="on") {
 				$_POST["status"] = 1;
 			}
 			else {
