@@ -8,7 +8,6 @@ class Controller_Admin extends Controller
     }
 	
 	private function getDataForPagination() {
-
 		if(isset($_GET['next'])){
 			$nb = [
 				"next" => (int)$_GET['next']+1,
@@ -48,14 +47,10 @@ class Controller_Admin extends Controller
 		}
 	}
 
-	public function check_auth($login,$password)
+	public function check_auth()
 	{
-		$boolean = $this->model->auth($login,$password);
-		if($boolean==1) {
-			return true;
-		}
-		else {
-			return false;
+		if(isset($_POST['login']) && isset($_POST['password'])) {
+			$boolean = $this->model->auth($_POST['login'],$_POST['password']);
 		}
 	}
 	public function exist($var) {
@@ -65,9 +60,7 @@ class Controller_Admin extends Controller
 	}
 	function action_index()
 	{	
-		$login = $this->exist($_POST['login']);
-		$password = $this->exist($_POST['password']);
-		$this->check_auth($login,$password);
+		$this->check_auth();
 		if(isset($_COOKIE['admin']) && isset($_POST["id"])) { 
 			// echo $_POST["back_page"]."  ".$_POST["next_page"];
 			if($_POST["status"]=="on") {
