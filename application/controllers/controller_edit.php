@@ -9,7 +9,7 @@ class Controller_Edit extends Controller
     
 	function action_index()
 	{	
-		if( isset($_GET["id"])) {	
+		if(isset($_GET["id"])) {	
 			$data = $this->model->get($_GET["id"]);
 			$this->view->generate('edit_view.php', 'template_view.php',$data);
 		}

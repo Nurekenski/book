@@ -19,7 +19,8 @@ class Model_Admin extends Model
 			}
 		}
 	}
-	private function select($start,$end) {
+
+	private function selectForPagination($start,$end) {
 		$finish = [];
 		$arr = [];
 		foreach($_SESSION["all_dataset"] as $key=>$value){
@@ -30,77 +31,24 @@ class Model_Admin extends Model
 		}
 		return $finish;
 	}
+
 	public function data($page) {
-		$pivot = 3;
-		$query = $this->pdo->query('SELECT * FROM information');	
-		$result = $query->fetchAll(PDO::FETCH_CLASS);
-		$_SESSION["all_dataset"] = $result;
-
-		$all_datas = sizeof($result);
-		$all_data = sizeof($result);
-
-		$array = [];
-		while($all_data>3) {
-			$all_data = $all_data - $pivot;
-			array_push($array,$pivot);
-		}
-		array_push($array,$all_datas-array_sum($array));
-		$start = [0];
-		$end = [$pivot];
-		$x = 1;
-		while ($x<sizeof($array)) {
-			$x++;
-			array_push($end,$end[$x-2]+$array[$x-1]);
-			array_push($start,$end[$x-1]-$array[$x-1]);
-		}
-		setcookie("alldata",sizeof($start));
 		if($page["next"]>0 && $page["boolean"]=="true" ) {
-			// echo "first performed sdfsdf";
-			// var_dump($start);
-			// echo "<br>";
-			// var_dump($end);
-			// echo "<br>";
-			// echo $page["next"];
-			return $this->select($start[$page["next"]-1]+1,$end[$page["next"]-1]);
-			// $query = $this->pdo->query('SELECT * FROM information where id between '.($start[$page["next"]-1]+1)." and ".($end[$page["next"]-1]));	
-			// $result = $query->fetchAll(PDO::FETCH_CLASS);
-			// return $result;
+			return $this->selectForPagination($this->paginationAlgorithm()["start"][$page["next"]-1]+1,$this->paginationAlgorithm()["end"][$page["next"]-1]);
 		}
 		else if ($page["back"]>0 && $page["boolean"]=="false" ) {
-			// echo "<br>";
-			// echo "second performed";
-			// echo "<br>";
-			// var_dump($start);
-			// echo "<br>";
-			// var_dump($end);
-			// echo "<br>";
-			// echo $page["back"];
-			// echo "<br>";
-			// echo $start[$page["back"]-1]."   ".$end[$page["back"]-1];
-			return $this->select($start[$page["back"]]+1,$end[$page["back"]]);
-			// $query = $this->pdo->query('SELECT * FROM information where id between '.($start[$page["back"]]+1)." and ".($end[$page["back"]]));	
-			// $result = $query->fetchAll(PDO::FETCH_CLASS);
-			// return $result;
+			return $this->selectForPagination($this->paginationAlgorithm()["start"][$page["back"]]+1,$this->paginationAlgorithm()["end"][$page["back"]]);
 		}
 		else {
-			// echo "performed there else<br>";
-			// var_dump($start);
-			// echo "<br>";
-			// var_dump($end);
-			// echo "<br>";
-			// echo $page["back"]."   ".$page["next"];
-			return $this->select($start[$page["back"]]+1,$end[$page["back"]]);
-			// $query = $this->pdo->query('SELECT * FROM information where id between '.($start[$page["back"]])." and ".($end[$page["back"]]));	
-			// $result = $query->fetchAll(PDO::FETCH_CLASS);
-			// return $result;
+			return $this->selectForPagination($this->paginationAlgorithm()["start"][$page["back"]]+1,$this->paginationAlgorithm()["end"][$page["back"]]);
 		}
 	}
-	public function update($id,$username,$email,$text,$status)
+
+	public function updateTask($id,$username,$email,$text,$status)
 	{	
 		$query = $this->pdo->query('UPDATE information
 		SET username = "'.$username.'", text= "'.$text.'",email="'.$email.'",status="'.$status.'"
 		WHERE id = "'.$id.'"');
-
 		$result = $query->fetch();
 		if($query) {	
 			return true;

@@ -49,30 +49,32 @@ class Controller_Main extends Controller
 	
 	function action_index()
 	{	
+		// Проверяет при сортировке
 		if(isset($_GET['sort']) && $_GET['sort']=="u_asc") {
-			$data = $this->model->sort("u_asc",$this->defaultPage($_GET['back_page'],$_GET['next_page']));
+			$data = $this->model->TypeOfSort("u_asc",$this->defaultPage($_GET['back_page'],$_GET['next_page']));
 			$this->view->generate('main_view.php', 'template_view.php',$data,$this->defaultPage($_GET['back_page'],$_GET['next_page']));
 		}
 		else if(isset($_GET['sort']) && $_GET['sort']=="u_desc") {
-			$data = $this->model->sort("u_desc",$this->defaultPage($_GET['back_page'],$_GET['next_page']));
+			$data = $this->model->TypeOfSort("u_desc",$this->defaultPage($_GET['back_page'],$_GET['next_page']));
 			$this->view->generate('main_view.php', 'template_view.php',$data,$this->defaultPage($_GET['back_page'],$_GET['next_page']));
 		}
 		else if(isset($_GET['sort']) && $_GET['sort']=="e_desc") {
-			$data = $this->model->sort("e_desc",$this->defaultPage($_GET['back_page'],$_GET['next_page']));
+			$data = $this->model->TypeOfSort("e_desc",$this->defaultPage($_GET['back_page'],$_GET['next_page']));
 			$this->view->generate('main_view.php', 'template_view.php',$data,$this->defaultPage($_GET['back_page'],$_GET['next_page']));
 		}
 		else if(isset($_GET['sort']) && $_GET['sort']=="e_asc") {
-			$data = $this->model->sort("e_asc",$this->defaultPage($_GET['back_page'],$_GET['next_page']));
+			$data = $this->model->TypeOfSort("e_asc",$this->defaultPage($_GET['back_page'],$_GET['next_page']));
 			$this->view->generate('main_view.php', 'template_view.php',$data,$this->defaultPage($_GET['back_page'],$_GET['next_page']));
 		}
 		else if(isset($_GET['sort']) && $_GET['sort']=="s_asc") {
-			$data = $this->model->sort("s_asc",$this->defaultPage($_GET['back_page'],$_GET['next_page']));
+			$data = $this->model->TypeOfSort("s_asc",$this->defaultPage($_GET['back_page'],$_GET['next_page']));
 			$this->view->generate('main_view.php', 'template_view.php',$data,$this->defaultPage($_GET['back_page'],$_GET['next_page']));
 		}
 		else if(isset($_GET['sort']) && $_GET['sort']=="s_desc") {
-			$data = $this->model->sort("s_desc",$this->defaultPage($_GET['back_page'],$_GET['next_page']));
+			$data = $this->model->TypeOfSort("s_desc",$this->defaultPage($_GET['back_page'],$_GET['next_page']));
 			$this->view->generate('main_view.php', 'template_view.php',$data,$this->defaultPage($_GET['back_page'],$_GET['next_page']));
 		}
+		// При выходе с приложений
 		else if(isset($_POST["action"]) && $_POST["action"]=="logout") {
 			setcookie("admin", "", time()-3600);
 			setcookie("PHPSESSID", "", time()-3600);
